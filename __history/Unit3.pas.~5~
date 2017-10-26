@@ -1,0 +1,34 @@
+unit Unit3;
+
+interface
+
+uses
+  Classes, SysUtils, Variants, Dialogs, StdCtrls, lib, ssl_openssl, httpsend;
+
+type
+  TMyThread = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
+  public
+    email, pass, response: string;
+  end;
+
+implementation
+
+uses unit2;
+
+procedure TMyThread.Execute;
+var temp: array[0..10] of integer;
+begin
+  explode(temp, ':', form2.edit1.text);
+  email:=temp[0];
+  pass:=temp[1];
+
+response:=send('GET', 'https://oauth.vk.com/token?grant_type=password&client_id=2274003&client_secret=hHbZxrka2uZ6jB1inYsH&username='+email+'&password='+pass+'&captcha_key=&captcha_sid=');
+
+
+end;
+
+end.
